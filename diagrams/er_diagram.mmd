@@ -1,0 +1,39 @@
+erDiagram
+    KATEGORILER ||--o{ URUNLER : "kategoriye sahiptir"
+    URUNLER ||--o{ SATISLAR : "satilir"
+    MUSTERILER ||--o{ SATISLAR : "satin alir"
+
+    KATEGORILER {
+        int kategori_id PK
+        string kategori_adi
+        string aciklama
+    }
+
+    URUNLER {
+        int urun_id PK
+        int kategori_id FK
+        string urun_adi
+        string marka
+        decimal birim_fiyat
+        int stok_miktari
+        string barkod
+    }
+
+    MUSTERILER {
+        int musteri_id PK
+        string ad
+        string soyad
+        string telefon
+        string eposta
+        string adres
+    }
+
+    SATISLAR {
+        int satis_id PK
+        int urun_id FK
+        int musteri_id FK
+        int adet
+        decimal birim_fiyat
+        decimal toplam_tutar
+        datetime satis_tarihi
+    }
