@@ -1,34 +1,23 @@
-LALELI KOZMETIK VE KISISEL BAKIM MAGAZASI
-VERITABANI YONETIM SISTEMLERI II FINAL PROJESI
-PROJEYI CALISTIRMA KILAVUZU
+========================================================================
+             LALELİ KOZMETİK - PROJEYİ ÇALIŞTIRMA KILAVUZU
+========================================================================
 
-1. Veritabanini Kurma
+Projeyi çalıştırmak için lütfen aşağıdaki 3 adımı uygulayınız:
 
-- MySQL Workbench, phpMyAdmin veya benzeri bir MySQL istemcisi acilir.
-- Proje klasorundeki sql/laleli_kozmetik_database.sql dosyasi calistirilir.
-- Script; laleli_kozmetik veritabanini, tablolari, stored procedure'leri,
-  function'lari, trigger'lari ve ornek verileri otomatik olusturur.
+1. VERİTABANI KURULUMU (MySQL):
+   "sql/laleli_kozmetik_database.sql" dosyasını MySQL editörünüzde
+   (Workbench, phpMyAdmin vb.) açıp çalıştırın (Execute).
+   (Veritabanı, tablolar, trigger/SP'ler ve örnek veriler otomatik yüklenecektir.)
 
-2. Baglanti Ayarini Yapma
+2. BAĞLANTI AYARI (C#):
+   "LaleliKozmetik.sln" dosyasını Visual Studio ile açın.
+   "LaleliKozmetik.DAL/Database.cs" dosyasındaki bağlantı dizesini 
+   kendi MySQL kullanıcı adınız ve şifrenize göre düzenleyin:
+   
+   - "Server=localhost;Database=laleli_kozmetik;Uid=root;Pwd=ŞİFRENİZ;Charset=utf8mb4;"
 
-- Visual Studio ile LaleliKozmetik.sln dosyasi acilir.
-- LaleliKozmetik.DAL projesindeki Database.cs dosyasi acilir.
-- ConnectionString satiri kendi MySQL kullanici adi ve sifresine gore duzenlenir.
+3. PROJEYİ BAŞLATMA:
+   "LaleliKozmetik.UI" projesini başlangıç projesi (Startup Project)
+   olarak ayarlayın ve "F5" tuşuna basarak çalıştırın.
 
-Ornek:
-Server=localhost;Database=laleli_kozmetik;Uid=root;Pwd=;Charset=utf8mb4;
-
-3. Uygulamayi Calistirma
-
-- Visual Studio'da LaleliKozmetik.UI projesi baslangic projesi yapilir.
-- F5 veya Start ile uygulama calistirilir.
-- Kategoriler, Urun Yonetimi, Musteri Kaydi ve Satis Ekrani sekmeleri test edilir.
-
-4. Projede Bulunan Temel Ozellikler
-
-- N-katmanli mimari: DAL, BLL ve UI katmanlari ayridir.
-- Veritabani islemleri stored procedure ile yapilir.
-- Her ana tablo icin ekle, sil, guncelle ve listele islemi vardir.
-- Satis yapilinca urun stogu trigger ile otomatik azalir.
-- Satis silinince stok trigger ile iade edilir.
-- KDV'li fiyat ve stok durumu icin MySQL function kullanilmistir.
+========================================================================
