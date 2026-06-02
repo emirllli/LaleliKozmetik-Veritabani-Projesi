@@ -2,4 +2,11 @@ bin/
 obj/
 .vs/
 *.user
+*.bak
+artifacts/
+excel_contents/
+report_contents/
+list.zip
+report.zip
 docs/rendered_report/
+docs/Laleli_Kozmetik_Final_Rapor.docx

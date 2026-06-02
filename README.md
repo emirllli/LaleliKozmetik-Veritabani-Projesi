@@ -1,4 +1,5 @@
 # Laleli Kozmetik ve Kisisel Bakim Magazasi
+**GitHub Link:** https://github.com/emirllli/LaleliKozmetik-Veritabani-Projesi
 
 BTS304 Veritabani Yonetim Sistemleri II final odevi icin hazirlanan MySQL + C# Windows Forms projesidir.
 
@@ -20,4 +21,6 @@ BTS304 Veritabani Yonetim Sistemleri II final odevi icin hazirlanan MySQL + C# W
 
 - SQL script: `sql/laleli_kozmetik_database.sql`
 - ER diyagrami: `diagrams/er_diagram.mmd` ve `diagrams/er_diagram.png`
-- Rapor: `docs/Laleli_Kozmetik_Final_Rapor.docx`
+- Uygulama ekran goruntuleri: `diagrams/ui_screenshots/`
+- Rapor: `docs/Laleli_Kozmetik_Final_Rapor_GUNCEL.docx`
+- Projeyi acma kilavuzu: `PROJEYI_ACMA_KILAVUZU.txt`

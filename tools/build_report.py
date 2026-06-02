@@ -13,132 +13,23 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 DIAGRAMS = ROOT / "diagrams"
 OUTPUT = DOCS / "Laleli_Kozmetik_Final_Rapor.docx"
-ER_IMAGE = DIAGRAMS / "er_diagram.png"
-PRODUCT_SCREEN = DIAGRAMS / "urun_yonetimi_ekrani.png"
-CUSTOMER_SCREEN = DIAGRAMS / "musteri_kaydi_ekrani.png"
-SALE_SCREEN = DIAGRAMS / "satis_ekrani.png"
-CATEGORY_SCREEN = DIAGRAMS / "kategori_yonetimi_ekrani.png"
+ER_IMAGE = DIAGRAMS / "yeni_veritabani_semasi.png"
+PRODUCT_SCREEN = DIAGRAMS / "ui_screenshots" / "01_urun_yonetimi.png"
+CUSTOMER_SCREEN = DIAGRAMS / "ui_screenshots" / "02_musteri_kaydi.png"
+SALE_SCREEN = DIAGRAMS / "ui_screenshots" / "03_satis_ekrani.png"
+CATEGORY_SCREEN = DIAGRAMS / "ui_screenshots" / "04_kategoriler.png"
 
 
 def draw_er_diagram():
-    DIAGRAMS.mkdir(exist_ok=True)
-    img = Image.new("RGB", (1400, 780), "white")
-    draw = ImageDraw.Draw(img)
-
-    try:
-        title_font = ImageFont.truetype("arial.ttf", 32)
-        box_font = ImageFont.truetype("arial.ttf", 24)
-        text_font = ImageFont.truetype("arial.ttf", 20)
-    except OSError:
-        title_font = box_font = text_font = ImageFont.load_default()
-
-    draw.text((360, 35), "Laleli Kozmetik ER Diyagrami", fill=(31, 78, 121), font=title_font)
-
-    boxes = {
-        "KATEGORILER": (80, 160, 380, 390, ["kategori_id PK", "kategori_adi", "aciklama"]),
-        "URUNLER": (555, 155, 865, 430, ["urun_id PK", "kategori_id FK", "urun_adi", "marka", "birim_fiyat", "stok_miktari", "barkod"]),
-        "MUSTERILER": (80, 505, 380, 705, ["musteri_id PK", "ad", "soyad", "telefon", "eposta", "adres"]),
-        "SATISLAR": (1020, 275, 1320, 565, ["satis_id PK", "urun_id FK", "musteri_id FK", "adet", "birim_fiyat", "toplam_tutar", "satis_tarihi"]),
-    }
-
-    for name, (x1, y1, x2, y2, attrs) in boxes.items():
-        draw.rounded_rectangle((x1, y1, x2, y2), radius=14, fill=(242, 247, 251), outline=(46, 116, 181), width=3)
-        draw.rectangle((x1, y1, x2, y1 + 46), fill=(46, 116, 181))
-        draw.text((x1 + 18, y1 + 10), name, fill="white", font=box_font)
-        y = y1 + 65
-        for attr in attrs:
-            draw.text((x1 + 22, y), attr, fill=(30, 30, 30), font=text_font)
-            y += 30
-
-    def line(start, end, label):
-        draw.line((start, end), fill=(35, 35, 35), width=3)
-        lx = (start[0] + end[0]) // 2 - 50
-        ly = (start[1] + end[1]) // 2 - 28
-        draw.rectangle((lx - 8, ly - 4, lx + 148, ly + 28), fill="white")
-        draw.text((lx, ly), label, fill=(30, 30, 30), font=text_font)
-
-    line((380, 275), (555, 275), "1 : N")
-    line((865, 292), (1020, 392), "1 : N")
-    line((380, 610), (1020, 475), "1 : N")
-
-    img.save(ER_IMAGE)
+    pass
 
 
 def draw_screen_mockup(path, title, fields, columns):
-    img = Image.new("RGB", (1400, 780), (248, 250, 252))
-    draw = ImageDraw.Draw(img)
-
-    try:
-        title_font = ImageFont.truetype("arial.ttf", 30)
-        label_font = ImageFont.truetype("arial.ttf", 22)
-        text_font = ImageFont.truetype("arial.ttf", 18)
-    except OSError:
-        title_font = label_font = text_font = ImageFont.load_default()
-
-    draw.rectangle((0, 0, 1400, 70), fill=(31, 78, 121))
-    draw.text((36, 18), title, fill="white", font=title_font)
-
-    y = 105
-    x = 50
-    for label in fields:
-        draw.text((x, y), label, fill=(35, 35, 35), font=label_font)
-        draw.rounded_rectangle((x + 120, y - 8, x + 420, y + 36), radius=6, fill="white", outline=(160, 174, 192), width=2)
-        x += 455
-        if x > 1000:
-            x = 50
-            y += 70
-
-    button_y = y + 70
-    if "Satis" in title:
-        captions = ["Satis Yap", "Satis Duzenle", "Satis Sil", "Yenile"]
-    else:
-        captions = ["Ekle", "Guncelle", "Sil", "Listele"]
-
-    for i, caption in enumerate(captions):
-        bx = 50 + i * 155
-        draw.rounded_rectangle((bx, button_y, bx + 135, button_y + 46), radius=6, fill=(46, 116, 181), outline=(46, 116, 181))
-        draw.text((bx + 22, button_y + 12), caption, fill="white", font=text_font)
-
-    table_y = button_y + 85
-    draw.rectangle((50, table_y, 1350, 720), fill="white", outline=(160, 174, 192), width=2)
-    draw.rectangle((50, table_y, 1350, table_y + 48), fill=(217, 234, 247), outline=(160, 174, 192), width=2)
-    col_width = 1300 // len(columns)
-    for i, column in enumerate(columns):
-        cx = 60 + i * col_width
-        draw.text((cx, table_y + 13), column, fill=(20, 45, 70), font=text_font)
-        draw.line((50 + (i + 1) * col_width, table_y, 50 + (i + 1) * col_width, 720), fill=(220, 226, 235), width=1)
-    for row in range(1, 6):
-        ry = table_y + 48 + row * 48
-        draw.line((50, ry, 1350, ry), fill=(230, 235, 242), width=1)
-
-    img.save(path)
+    pass
 
 
 def draw_screen_images():
-    draw_screen_mockup(
-        CATEGORY_SCREEN,
-        "Kategori Yonetimi Ekrani",
-        ["Kategori Adi", "Aciklama"],
-        ["Kategori ID", "Kategori Adi", "Aciklama"],
-    )
-    draw_screen_mockup(
-        PRODUCT_SCREEN,
-        "Urun Yonetimi Ekrani",
-        ["Kategori", "Urun Adi", "Marka", "Fiyat", "Stok", "Barkod"],
-        ["Urun ID", "Kategori", "Urun", "Marka", "Fiyat", "KDV'li", "Stok"],
-    )
-    draw_screen_mockup(
-        CUSTOMER_SCREEN,
-        "Musteri Kaydi Ekrani",
-        ["Ad", "Soyad", "Telefon", "E-posta", "Adres"],
-        ["Musteri ID", "Ad", "Soyad", "Telefon", "E-posta", "Adres"],
-    )
-    draw_screen_mockup(
-        SALE_SCREEN,
-        "Satis Ekrani",
-        ["Urun", "Musteri", "Adet"],
-        ["Satis ID", "Tarih", "Musteri", "Urun", "Adet", "Birim Fiyat", "Toplam"],
-    )
+    pass
 
 
 def set_cell_shading(cell, fill):
@@ -190,8 +81,6 @@ def add_table(doc, headers, rows):
 
 def main():
     DOCS.mkdir(exist_ok=True)
-    draw_er_diagram()
-    draw_screen_images()
 
     doc = Document()
     section = doc.sections[0]
@@ -206,7 +95,7 @@ def main():
 
     title = doc.add_paragraph()
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = title.add_run("Laleli Kozmetik ve Kisisel Bakim Magazasi\nVeritabani Yonetim Sistemleri II Final Odevi")
+    run = title.add_run("Laleli Kozmetik ve Kişisel Bakım Mağazası\nVeritabanı Yönetim Sistemleri II Final Ödevi")
     run.bold = True
     run.font.size = Pt(18)
     run.font.color.rgb = RGBColor(31, 78, 121)
@@ -216,112 +105,182 @@ def main():
     info.add_run("Emirhan Laleli\n23010708033\nBTS304 - 2026").bold = True
     doc.add_page_break()
 
-    add_heading(doc, "ADIM-1: Senaryo ve Problem Tanimi")
+    add_heading(doc, "ADIM-1: Senaryo ve Problem Tanımı")
     doc.add_paragraph(
-        "Bu proje, makyaj, cilt bakimi, parfum ve kisisel bakim urunleri satan Laleli Kozmetik ve "
-        "Kisisel Bakim Magazasi icin hazirlanmistir. Magazada urun giris-cikislari, musteri kayitlari "
-        "ve satis hareketleri tek bir veritabani uzerinden takip edilir."
+        "Bu proje, makyaj, cilt bakımı, parfüm ve kişisel bakım ürünleri satan Laleli Kozmetik ve "
+        "Kişisel Bakım Mağazası için hazırlanmıştır. Mağazada ürün giriş-çıkışları, müşteri kayıtları "
+        "ve satış hareketleri tek bir veritabanı üzerinden takip edilir."
     )
     add_bullets(
         doc,
         [
-            "Problem: Stok takibi defter veya daginik dosyalarla yapildigi icin guncel stok miktari hizli gorulememektedir.",
-            "Problem: Musterilere yapilan satislar raporlanamadigi icin musteri bazli toplam harcama izlenememektedir.",
-            "Hedef: Satis yapildiginda urun stok miktarini otomatik azaltan ve satis raporu sunan bir sistem gelistirmek.",
-            "Kisit: Kayitli olmayan musteriye veya kayitli olmayan urune satis yapilmaz.",
-            "Kisit: Stok miktari yetersizse satis islemi BLL ve trigger tarafinda engellenir.",
+            "Problem: Stok takibi defter veya dağınık dosyalarla yapıldığı için güncel stok miktarı hızlı görülememektedir.",
+            "Problem: Müşterilere yapılan satışlar raporlanamadığı için müşteri bazlı toplam harcama izlenememektedir.",
+            "Hedef: Satış yapıldığında ürün stok miktarını otomatik azaltan ve satış raporu sunan bir sistem geliştirmek.",
+            "Kısıt: Kayıtlı olmayan müşteriye veya kayıtlı olmayan ürüne satış yapılmaz.",
+            "Kısıt: Stok miktarı yetersizse satış işlemi BLL ve trigger tarafında engellenir.",
         ],
     )
 
-    add_heading(doc, "ADIM-2: Veritabani Tasarimi")
-    doc.add_picture(str(ER_IMAGE), width=Inches(6.5))
-    doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_table(
+    add_heading(doc, "ADIM-2: Varlıklar ve Nitelikler")
+    add_bullets(
         doc,
-        ["Varlik", "Nitelikler"],
         [
-            ["Kategoriler", "kategori_id PK, kategori_adi, aciklama"],
-            ["Urunler", "urun_id PK, kategori_id FK, urun_adi, marka, birim_fiyat, stok_miktari, barkod"],
-            ["Musteriler", "musteri_id PK, ad, soyad, telefon, eposta, adres"],
-            ["Satislar", "satis_id PK, urun_id FK, musteri_id FK, adet, birim_fiyat, toplam_tutar, satis_tarihi"],
+            "Kategoriler (Kategori ID, Kategori Adı, Açıklama)",
+            "Ürünler (Ürün ID, Kategori ID, Ürün Adı, Marka, Birim Fiyat, Stok Miktarı, Barkod)",
+            "Müşteriler (Müşteri ID, Ad, Soyad, Telefon, E-posta, Adres)",
+            "Satışlar (Satış ID, Ürün ID, Müşteri ID, Adet, Birim Fiyat, Toplam Tutar, Satış Tarihi)",
         ],
     )
+
+    add_heading(doc, "Varlıklar Arası İlişkiler", level=2)
+    
+    p = doc.add_paragraph(style="List Bullet")
+    p.add_run("Kategori-Ürün").bold = True
+    p2 = doc.add_paragraph(style="List Bullet")
+    p2.paragraph_format.left_indent = Inches(0.4)
+    p2.add_run("Bir kategoride birden fazla ürün bulunabilir.")
+    p3 = doc.add_paragraph(style="List Bullet")
+    p3.paragraph_format.left_indent = Inches(0.4)
+    p3.add_run("1:N")
+
+    p = doc.add_paragraph(style="List Bullet")
+    p.add_run("Ürün-Satış").bold = True
+    p2 = doc.add_paragraph(style="List Bullet")
+    p2.paragraph_format.left_indent = Inches(0.4)
+    p2.add_run("Bir ürün birden fazla satışta bulunabilir.")
+    p3 = doc.add_paragraph(style="List Bullet")
+    p3.paragraph_format.left_indent = Inches(0.4)
+    p3.add_run("1:N")
+
+    p = doc.add_paragraph(style="List Bullet")
+    p.add_run("Müşteri-Satış").bold = True
+    p2 = doc.add_paragraph(style="List Bullet")
+    p2.paragraph_format.left_indent = Inches(0.4)
+    p2.add_run("Bir müşteri birden fazla satın alma yapabilir.")
+    p3 = doc.add_paragraph(style="List Bullet")
+    p3.paragraph_format.left_indent = Inches(0.4)
+    p3.add_run("1:N")
+
+    add_heading(doc, "Er-Şeması", level=2)
+    if ER_IMAGE.exists():
+        doc.add_picture(str(ER_IMAGE), width=Inches(6.5))
+        doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+    else:
+        doc.add_paragraph("[Veritabanı Şeması Görseli Yüklenemedi - Dosya Bulunamadı]")
+
+    add_heading(doc, "İlişkisel (Mantıksal) Şema", level=2)
+    
+    p = doc.add_paragraph()
+    p.add_run("Kategoriler = {")
+    run = p.add_run("Kategori ID")
+    run.underline = True
+    p.add_run(", Kategori Adı, Açıklama}")
+    
+    p = doc.add_paragraph()
+    p.add_run("Ürünler = {")
+    run = p.add_run("Ürün ID")
+    run.underline = True
+    p.add_run(", +Kategori ID, Ürün Adı, Marka, Birim Fiyat, Stok Miktarı, Barkod}")
+    
+    p = doc.add_paragraph()
+    p.add_run("Müşteriler = {")
+    run = p.add_run("Müşteri ID")
+    run.underline = True
+    p.add_run(", Ad, Soyad, Telefon, E-posta, Adres}")
+    
+    p = doc.add_paragraph()
+    p.add_run("Satışlar = {")
+    run = p.add_run("Satış ID")
+    run.underline = True
+    p.add_run(", +Ürün ID, +Müşteri ID, Adet, Birim Fiyat, Toplam Tutar, Satış Tarihi}")
     doc.add_paragraph()
-    add_table(
-        doc,
-        ["Iliski", "Kardinalite", "Aciklama"],
-        [
-            ["Kategoriler - Urunler", "1:N", "Bir kategoride birden fazla urun bulunabilir."],
-            ["Urunler - Satislar", "1:N", "Bir urun farkli satislarda tekrar satilabilir."],
-            ["Musteriler - Satislar", "1:N", "Bir musterinin birden fazla satis kaydi olabilir."],
-        ],
-    )
 
     sql_text = (ROOT / "sql" / "laleli_kozmetik_database.sql").read_text(encoding="utf-8")
-    add_heading(doc, "ADIM-3: Veritabani Programlama")
+    add_heading(doc, "ADIM-3: Veritabanı Programlama")
     doc.add_paragraph(
-        "Veritabani MySQL uzerinde hazirlanmistir. CRUD islemleri stored procedure ile yapilir. "
-        "Satis eklenmeden once trigger stok miktarini kontrol eder ve yeterli stok varsa urun stok miktarini dusurur. "
-        "KDV hesaplamasi icin fonksiyon kullanilmistir."
+        "Veritabanı MySQL üzerinde hazırlanmıştır. CRUD işlemleri stored procedure ile yapılır. "
+        "Satış eklenmeden önce trigger stok miktarını kontrol eder ve yeterli stok varsa ürün stok miktarını düşürür. "
+        "KDV hesaplaması için fonksiyon kullanılmıştır."
     )
-    add_code(doc, "Trigger: Satis Yapilinca Stok Dusurme", sql_text[sql_text.index("CREATE TRIGGER"):sql_text.index("CREATE PROCEDURE sp_kategori_ekle")])
+    add_code(doc, "Trigger: Satış Yapılınca Stok Düşürme", sql_text[sql_text.index("CREATE TRIGGER"):sql_text.index("CREATE PROCEDURE sp_kategori_ekle")])
     add_code(doc, "Function: KDV'li Fiyat", sql_text[sql_text.index("CREATE FUNCTION"):sql_text.index("CREATE TRIGGER")])
-    add_code(doc, "Ornek Stored Procedure: Urun Ekleme", sql_text[sql_text.index("CREATE PROCEDURE sp_urun_ekle"):sql_text.index("CREATE PROCEDURE sp_urun_guncelle")])
+    add_code(doc, "Örnek Stored Procedure: Ürün Ekleme", sql_text[sql_text.index("CREATE PROCEDURE sp_urun_ekle"):sql_text.index("CREATE PROCEDURE sp_urun_guncelle")])
 
-    add_heading(doc, "ADIM-4: Uygulama Gelistirme")
+    add_heading(doc, "ADIM-4: Uygulama Geliştirme")
     doc.add_paragraph(
-        "C# uygulamasi N-katmanli mimari ile hazirlanmistir. Data Access Layer yalnizca MySQL baglantisi ve "
-        "stored procedure cagrilarini icerir. Business Logic Layer alan dogrulama ve stok kontrolu yapar. "
-        "Presentation Layer Windows Forms ekranlarini icerir."
+        "C# uygulaması N-katmanlı mimari ile hazırlanmıştır. Data Access Layer yalnızca MySQL bağlantısı ve "
+        "stored procedure çağrılarını içerir. Business Logic Layer alan doğrulama ve stok kontrolü yapar. "
+        "Presentation Layer Windows Forms ekranlarını içerir."
     )
     add_table(
         doc,
-        ["Katman", "Proje/Klasor", "Gorev"],
+        ["Katman", "Proje/Klasör", "Görev"],
         [
-            ["DAL", "LaleliKozmetik.DAL", "MySqlConnection, MySqlCommand ve SP cagrilari"],
-            ["BLL", "LaleliKozmetik.BLL", "Urun, musteri ve satis is kurallari"],
-            ["UI", "LaleliKozmetik.UI", "Kategoriler, Urun Yonetimi, Musteri Kaydi ve Satis Ekrani"],
+            ["DAL", "LaleliKozmetik.DAL", "MySqlConnection, MySqlCommand ve SP çağrıları"],
+            ["BLL", "LaleliKozmetik.BLL", "Ürün, müşteri ve satış iş kuralları"],
+            ["UI", "LaleliKozmetik.UI", "Kategoriler, Ürün Yönetimi, Müşteri Kaydı ve Satış Ekranı"],
         ],
     )
 
-    add_code(doc, "BLL Stok Kontrolu", (ROOT / "LaleliKozmetik.BLL" / "SaleService.cs").read_text(encoding="utf-8"))
-    add_code(doc, "DAL Satis SP Cagrisi", (ROOT / "LaleliKozmetik.DAL" / "SaleRepository.cs").read_text(encoding="utf-8"))
+    add_code(doc, "BLL Stok Kontrolü", (ROOT / "LaleliKozmetik.BLL" / "SaleService.cs").read_text(encoding="utf-8"))
+    add_code(doc, "DAL Satış SP Çağrısı", (ROOT / "LaleliKozmetik.DAL" / "SaleRepository.cs").read_text(encoding="utf-8"))
 
     add_heading(doc, "Ekranlar")
     add_bullets(
         doc,
         [
-            "Kategoriler: Kategori ekleme, silme, guncelleme ve listeleme islemleri yapilir.",
-            "Urun Yonetimi: Urun ekleme, silme, guncelleme ve listeleme islemleri yapilir.",
-            "Musteri Kaydi: Musteri ekleme, silme, guncelleme ve listeleme islemleri yapilir.",
-            "Satis Ekrani: Satis ekleme, silme, guncelleme ve listeleme islemleri yapilir; satis sonrasi stok miktari otomatik duser.",
+            "Kategoriler: Kategori ekleme, silme, güncelleme ve listeleme işlemleri yapılır.",
+            "Ürün Yönetimi: Ürün ekleme, silme, güncelleme ve listeleme işlemleri yapılır.",
+            "Müşteri Kaydı: Müşteri ekleme, silme, güncelleme ve listeleme işlemleri yapılır.",
+            "Satış Ekranı: Satış ekleme, silme, güncelleme ve listeleme işlemleri yapılır; satış sonrası stok miktarı otomatik düşer.",
         ],
     )
     for image, caption in [
-        (CATEGORY_SCREEN, "Kategori Yonetimi Ekrani"),
-        (PRODUCT_SCREEN, "Urun Yonetimi Ekrani"),
-        (CUSTOMER_SCREEN, "Musteri Kaydi Ekrani"),
-        (SALE_SCREEN, "Satis Ekrani"),
+        (CATEGORY_SCREEN, "Kategori Yönetimi Ekranı"),
+        (PRODUCT_SCREEN, "Ürün Yönetimi Ekranı"),
+        (CUSTOMER_SCREEN, "Müşteri Kaydı Ekranı"),
+        (SALE_SCREEN, "Satış Ekranı"),
     ]:
-        doc.add_paragraph(caption).runs[0].bold = True
-        doc.add_picture(str(image), width=Inches(6.5))
-        doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        if image.exists():
+            doc.add_paragraph(caption).runs[0].bold = True
+            doc.add_picture(str(image), width=Inches(6.5))
+            doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        else:
+            doc.add_paragraph(f"[{caption} Görseli Yüklenemedi - Dosya Bulunamadı]")
 
-    add_heading(doc, "ADIM-5: Teslimat ve Video Akisi")
+    add_heading(doc, "ADIM-5: Teslimat ve Video Akışı")
     add_bullets(
         doc,
         [
-            "SQL scripti: sql/laleli_kozmetik_database.sql dosyasi MySQL uzerinde calistirilir.",
-            "C# proje: LaleliKozmetik.sln Visual Studio ile acilir ve calistirilir.",
-            "Video 1: MySQL tarafinda trigger ve function gosterilir.",
-            "Video 2: Uygulamada kategori, urun, musteri ve satis CRUD islemleri gosterilir.",
-            "Video 3: Satis yapildiktan sonra stok miktarinin dustugu, satis silinince stok iadesi oldugu gosterilir.",
-            "GitHub: Tum proje, SQL scripti, ER diyagrami ve rapor yuklenir.",
+            "SQL scripti: sql/laleli_kozmetik_database.sql dosyası MySQL üzerinde çalıştırılır.",
+            "C# proje: LaleliKozmetik.sln Visual Studio ile açılır ve çalıştırılır.",
+            "Video 1: MySQL tarafında trigger ve function gösterilir.",
+            "Video 2: Uygulamada kategori, ürün, müşteri ve satış CRUD işlemleri gösterilir.",
+            "Video 3: Satış yapıldıktan sonra stok miktarının düştüğü, satış silinince stok iadesi olduğu gösterilir.",
+            "GitHub: Tüm proje, SQL scripti, ER diyagramı ve rapor yüklenir.",
         ],
     )
 
-    doc.save(OUTPUT)
-    print(OUTPUT)
+    doc.add_paragraph()
+    p_video = doc.add_paragraph()
+    p_video.add_run("Video Sunum Linki: ").bold = True
+    p_video.add_run("__________________________________________________")
+    
+    doc.add_paragraph()
+    p_github = doc.add_paragraph()
+    p_github.add_run("GitHub Proje Deposu (Repository) Linki: ").bold = True
+    p_github.add_run("https://github.com/emirllli/LaleliKozmetik-Veritabani-Projesi")
+
+    # Try writing to standard output path
+    try:
+        doc.save(OUTPUT)
+        print(f"SUCCESS: {OUTPUT}")
+    except PermissionError:
+        # Fallback to alternate path if locked by Word
+        alt_output = DOCS / "Laleli_Kozmetik_Final_Rapor_GUNCEL.docx"
+        doc.save(alt_output)
+        print(f"SUCCESS (Alternate due to lock): {alt_output}")
 
 
 if __name__ == "__main__":

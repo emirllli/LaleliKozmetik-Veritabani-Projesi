@@ -1,4 +1,4 @@
-using LaleliKozmetik.BLL;
+﻿using LaleliKozmetik.BLL;
 using LaleliKozmetik.DAL;
 
 namespace LaleliKozmetik.UI;
@@ -34,16 +34,16 @@ public partial class Form1 : Form
     private readonly TextBox _categoryNameText = new();
     private readonly TextBox _categoryDescText = new();
 
-    private static readonly Color PrimaryColor = Color.FromArgb(74, 20, 140);   // Deep Purple
-    private static readonly Color SecondaryColor = Color.FromArgb(173, 20, 87); // Pink/Rose
-    private static readonly Color BgColor = Color.FromArgb(250, 248, 255);      // Lilac White
+    private static readonly Color PrimaryColor = Color.FromArgb(74, 20, 140);
+    private static readonly Color SecondaryColor = Color.FromArgb(173, 20, 87);
+    private static readonly Color BgColor = Color.FromArgb(250, 248, 255);
 
     public Form1()
     {
         InitializeComponent();
         this.Font = new Font("Segoe UI", 10);
         this.BackColor = BgColor;
-        this.Text = "Laleli Kozmetik - Stok ve Satış Otomasyonu";
+        this.Text = "Laleli Kozmetik - Stok ve Satis Otomasyonu";
         
         ApplyGridStyle(_productGrid);
         ApplyGridStyle(_customerGrid);
@@ -91,7 +91,7 @@ public partial class Form1 : Form
 
     private TabPage BuildCategoryTab()
     {
-        var page = new TabPage("🌸 Kategoriler");
+        var page = new TabPage("Kategoriler");
         var panel = new TableLayoutPanel { Dock = DockStyle.Top, Height = 130, ColumnCount = 4, RowCount = 2, Padding = new Padding(15) };
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
@@ -101,10 +101,10 @@ public partial class Form1 : Form
         AddField(panel, "Kategori Adi:", _categoryNameText, 0, 0);
         AddField(panel, "Aciklama:", _categoryDescText, 2, 0);
 
-        var addButton = new Button { Text = "✚ Ekle", Width = 100 };
-        var updateButton = new Button { Text = "📝 Guncelle", Width = 100 };
-        var deleteButton = new Button { Text = "🗑 Sil", Width = 100 };
-        var refreshButton = new Button { Text = "🔄 Yenile", Width = 100 };
+        var addButton = new Button { Text = "Ekle", Width = 100 };
+        var updateButton = new Button { Text = "Guncelle", Width = 100 };
+        var deleteButton = new Button { Text = "Sil", Width = 100 };
+        var refreshButton = new Button { Text = "Yenile", Width = 100 };
 
         ApplyButtonStyle(addButton, Color.FromArgb(46, 125, 50)); // Green
         ApplyButtonStyle(updateButton, Color.FromArgb(21, 101, 192)); // Blue
@@ -129,7 +129,7 @@ public partial class Form1 : Form
 
     private TabPage BuildProductTab()
     {
-        var page = new TabPage("💄 Urun Yonetimi");
+        var page = new TabPage("Urun Yonetimi");
         var panel = new TableLayoutPanel { Dock = DockStyle.Top, Height = 180, ColumnCount = 6, RowCount = 3, Padding = new Padding(15) };
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33));
@@ -145,10 +145,10 @@ public partial class Form1 : Form
         AddField(panel, "Stok:", _stockInput, 2, 1);
         AddField(panel, "Barkod:", _barcodeText, 4, 1);
 
-        var addButton = new Button { Text = "✚ Urun Ekle", Width = 110 };
-        var updateButton = new Button { Text = "📝 Guncelle", Width = 110 };
-        var deleteButton = new Button { Text = "🗑 Sil", Width = 110 };
-        var refreshButton = new Button { Text = "🔄 Listele", Width = 110 };
+        var addButton = new Button { Text = "Urun Ekle", Width = 110 };
+        var updateButton = new Button { Text = "Guncelle", Width = 110 };
+        var deleteButton = new Button { Text = "Sil", Width = 110 };
+        var refreshButton = new Button { Text = "Listele", Width = 110 };
 
         ApplyButtonStyle(addButton, Color.FromArgb(46, 125, 50));
         ApplyButtonStyle(updateButton, Color.FromArgb(21, 101, 192));
@@ -173,7 +173,7 @@ public partial class Form1 : Form
 
     private TabPage BuildCustomerTab()
     {
-        var page = new TabPage("👥 Musteri Kaydi");
+        var page = new TabPage("Musteri Kaydi");
         var panel = new TableLayoutPanel { Dock = DockStyle.Top, Height = 160, ColumnCount = 6, RowCount = 3, Padding = new Padding(15) };
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33));
@@ -188,10 +188,10 @@ public partial class Form1 : Form
         AddField(panel, "E-posta:", _emailText, 0, 1);
         AddField(panel, "Adres:", _addressText, 2, 1);
 
-        var addButton = new Button { Text = "✚ Musteri Kaydet", Width = 140 };
-        var updateButton = new Button { Text = "📝 Guncelle", Width = 100 };
-        var deleteButton = new Button { Text = "🗑 Sil", Width = 100 };
-        var refreshButton = new Button { Text = "🔄 Listele", Width = 100 };
+        var addButton = new Button { Text = "Musteri Kaydet", Width = 140 };
+        var updateButton = new Button { Text = "Guncelle", Width = 100 };
+        var deleteButton = new Button { Text = "Sil", Width = 100 };
+        var refreshButton = new Button { Text = "Listele", Width = 100 };
 
         ApplyButtonStyle(addButton, Color.FromArgb(46, 125, 50));
         ApplyButtonStyle(updateButton, Color.FromArgb(21, 101, 192));
@@ -216,7 +216,7 @@ public partial class Form1 : Form
 
     private TabPage BuildSaleTab()
     {
-        var page = new TabPage("💰 Satis Ekrani");
+        var page = new TabPage("Satis Ekrani");
         var panel = new TableLayoutPanel { Dock = DockStyle.Top, Height = 130, ColumnCount = 6, RowCount = 2, Padding = new Padding(15) };
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
         panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34));
@@ -229,10 +229,10 @@ public partial class Form1 : Form
         AddField(panel, "Musteri:", _saleCustomerCombo, 2, 0);
         AddField(panel, "Adet:", _saleQuantityInput, 4, 0);
 
-        var sellButton = new Button { Text = "🛒 Satis Yap", Width = 120 };
-        var updateButton = new Button { Text = "📝 Duzenle", Width = 110 };
-        var deleteButton = new Button { Text = "🗑 İptal Et", Width = 110 };
-        var refreshButton = new Button { Text = "🔄 Yenile", Width = 100 };
+        var sellButton = new Button { Text = "Satis Yap", Width = 120 };
+        var updateButton = new Button { Text = "Duzenle", Width = 110 };
+        var deleteButton = new Button { Text = "Iptal Et", Width = 110 };
+        var refreshButton = new Button { Text = "Yenile", Width = 100 };
 
         ApplyButtonStyle(sellButton, SecondaryColor);
         ApplyButtonStyle(updateButton, Color.FromArgb(21, 101, 192));
