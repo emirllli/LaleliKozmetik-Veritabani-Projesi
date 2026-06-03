@@ -168,7 +168,7 @@ CREATE PROCEDURE sp_urun_listele()
 BEGIN
     SELECT u.urun_id, u.kategori_id, k.kategori_adi, u.urun_adi, u.marka,
            u.birim_fiyat, fn_kdvli_fiyat(u.birim_fiyat, 20) AS kdvli_fiyat,
-           u.stok_miktari, u.barkod
+           u.stok_miktari, fn_stok_durumu(u.stok_miktari) AS stok_durumu, u.barkod
     FROM urunler u
     INNER JOIN kategoriler k ON k.kategori_id = u.kategori_id
     ORDER BY u.urun_adi;

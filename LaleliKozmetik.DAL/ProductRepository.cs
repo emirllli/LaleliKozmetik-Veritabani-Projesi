@@ -23,6 +23,7 @@ public sealed class ProductRepository : RepositoryBase
                 UnitPrice = reader.GetDecimal("birim_fiyat"),
                 VatIncludedPrice = reader.GetDecimal("kdvli_fiyat"),
                 StockQuantity = reader.GetInt32("stok_miktari"),
+                StockStatus = reader.GetString("stok_durumu"),
                 Barcode = ReadNullableString(reader, "barkod")
             });
         }

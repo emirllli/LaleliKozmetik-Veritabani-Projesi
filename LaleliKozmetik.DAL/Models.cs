@@ -42,6 +42,9 @@ public sealed class Product
     [DisplayName("Stok")]
     public int StockQuantity { get; set; }
 
+    [DisplayName("Stok Durumu")]
+    public string StockStatus { get; set; } = "";
+
     [DisplayName("Barkod")]
     public string? Barcode { get; set; }
 
